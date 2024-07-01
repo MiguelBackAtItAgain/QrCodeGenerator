@@ -35,7 +35,7 @@ def main():
 @app.route("/create_qr", methods=['GET'])
 @requires_auth
 def create_qr():
-    data = request.args.get('data')
+    data = f"REG_ID: {int(request.args.get('data'))}"
     color = request.args.get('color')
     base64 = request.args.get('base64')
     img = create_qr_code(data, color)
