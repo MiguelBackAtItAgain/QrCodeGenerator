@@ -1,8 +1,9 @@
-from flask import Flask, request, send_file, jsonify, Response
+from flask import Flask, request, send_file, Response, jsonify
 from create import create_qr_code
 from functools import wraps
 from io import BytesIO
 from dotenv import load_dotenv
+import base64
 import os
 
 load_dotenv()
@@ -13,8 +14,6 @@ USERNAME = os.getenv('FLASK_USERNAME')
 PASSWORD = os.getenv('PASSWORD')
 
 def check_auth(username, password):
-    print(f"Received username: {username}, password: {password}")
-    print(f"Expected username: {USERNAME}, password: {PASSWORD}")
     return username == USERNAME and password == PASSWORD
 
 def authenticate():
@@ -38,7 +37,10 @@ def main():
 def create_qr():
     data = request.args.get('data')
     color = request.args.get('color')
+    base64 = request.args.get('base64')
     img = create_qr_code(data, color)
+    if base64:
+        return send_base64_image(img)
     return send_image(img)
 
 def send_image(img):
@@ -46,6 +48,13 @@ def send_image(img):
     img.save(img_io, 'PNG')
     img_io.seek(0)
     return send_file(img_io, mimetype='image/png')
+
+def send_base64_image(img):
+    img_io = BytesIO()
+    img.save(img_io, 'PNG')
+    img_io.seek(0)
+    img_base64 = base64.b64encode(img_io.getvalue()).decode('utf-8')
+    return jsonify({"image": img_base64})
 
 if __name__ == '__main__':
     app.run(debug=True)
