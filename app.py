@@ -37,6 +37,7 @@ def main():
 def create_qr():
     data = f"REG_ID: {int(request.args.get('data'))}"
     color = request.args.get('color')
+    print(color)
     base64 = request.args.get('base64')
     img = create_qr_code(data, color)
     if base64:
@@ -57,5 +58,5 @@ def send_base64_image(img):
     return jsonify({"image": img_base64})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=3000)
     

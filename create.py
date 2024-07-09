@@ -10,7 +10,7 @@ def create_qr_code(data, color):
     qr.add_data(data)
     qr.make(fit=True)
 
-    img = qr.make_image(fill_color=color,
-                        back_color=color)
+    img = qr.make_image(fill_color='blue',
+                        back_color="white")
     
     return img
