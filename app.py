@@ -70,5 +70,5 @@ def send_base64_image(img):
     return jsonify({"image": img_base64})
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=3000)
+    app.run(debug=False, host="0.0.0.0", port=3000)
     
