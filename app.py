@@ -32,17 +32,29 @@ def requires_auth(f):
 def main():
     return "Hello!"
 
-@app.route("/create_qr", methods=['GET'])
+@app.route("/create_qr", methods=['GET', 'POST'])
 @requires_auth
 def create_qr():
-    data = f"REG_ID: {int(request.args.get('data'))}"
-    color = request.args.get('color')
-    print(color)
-    base64 = request.args.get('base64')
-    img = create_qr_code(data, color)
+    
+    data = request.get_json()
+
+    qr_info = {
+        'date': data.get('date'),
+        'user': data.get('user'),
+        'class': data.get('class')
+    }
+
+    color = data.get('color')
+
+    base64 = data.get('base64')
+
+    img = create_qr_code(qr_info, color)
+
     if base64:
         return send_base64_image(img)
+    
     return send_image(img)
+
 
 def send_image(img):
     img_io = BytesIO()
