@@ -38,18 +38,13 @@ def create_qr():
     
     data = request.get_json()
 
-    qr_info = {
-        'date': data.get('date'),
-        'user': data.get('user'),
-        'course': data.get('course'),
-        'class': data.get('class')
-    }
+    filtered_data = {key: value for key, value in data.items() if key not in ['color', 'base64']}
 
     color = data.get('color')
 
     base64 = data.get('base64')
 
-    img = create_qr_code(qr_info, color)
+    img = create_qr_code(filtered_data, color)
 
     if base64:
         return send_base64_image(img)
