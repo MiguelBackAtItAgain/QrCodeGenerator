@@ -41,6 +41,7 @@ def create_qr():
     qr_info = {
         'date': data.get('date'),
         'user': data.get('user'),
+        'course': data.get('course'),
         'class': data.get('class')
     }
 
