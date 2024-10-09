@@ -38,7 +38,7 @@ def create_qr():
     
     data = request.get_json()
 
-    filtered_data = {key: value for key, value in data.items() if key not in ['color', 'base64']}
+    filtered_data = {f'"{key}"': f'"{value}"' for key, value in data.items() if key not in ['color', 'base64']}
 
     color = data.get('color')
 
