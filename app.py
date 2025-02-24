@@ -56,7 +56,7 @@ def create_qr():
 def qr_link():
     link = request.get_json()
 
-    filter_link = link.get(["link"])
+    filter_link = link.get("link")
 
     color = link.get('color')
 
