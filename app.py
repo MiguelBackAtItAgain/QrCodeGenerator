@@ -51,7 +51,7 @@ def create_qr():
     
     return send_image(img)
 
-@app.route("qr_link", methods=["GET", "POST"])
+@app.route("/qr_link", methods=["GET", "POST"])
 @requires_auth
 def qr_link():
     link = request.get_json()
