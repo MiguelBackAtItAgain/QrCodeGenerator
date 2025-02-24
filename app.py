@@ -51,6 +51,25 @@ def create_qr():
     
     return send_image(img)
 
+@app.route("qr_link", methods=["GET", "POST"])
+@requires_auth
+def qr_link():
+    link = request.get_json()
+
+    filter_link = link.get(["link"])
+
+    color = link.get('color')
+
+    base64 = link.get('base64')
+
+    img = create_qr_code(filter_link, color)
+
+    if base64:
+        return send_base64_image(img)
+    
+    return send_image(img)
+
+
 
 def send_image(img):
     img_io = BytesIO()
